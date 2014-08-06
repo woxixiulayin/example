@@ -7,15 +7,15 @@
 #define color_set_green glColor3ub(0,255,0)
 #define color_set_red glColor3ub(255, 0, 0)
 #define color_set_blue glColor3ub(0, 0, 255)
-#define color_set_white glColor3ub(0, 0, 0)
-#define color_set_black glColor3ub(255, 255, 255)
+#define color_set_black glColor3ub(0, 0, 0)
+#define color_set_white glColor3ub(255, 255, 255)
 
 //定义界面窗口的大小 单位为像素点
 #define windows_width 1000
 #define windows_height 600 
 
-//定义窗口边界线的粗细 单位为像素点
-#define windows_line_width 20
+//定义窗口边界线的粗细 单位为像素比例
+#define windows_line_width 0.04
 
 //定义游戏区的大小 单位为方块
 #define board_width 10
@@ -37,7 +37,7 @@
 #define preview_line_width   0.02
  
 
-//画界面边线
+//画界面边线和背景
 void draw_windows(void);
 
 //画游戏区
