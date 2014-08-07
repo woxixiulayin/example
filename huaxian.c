@@ -13,7 +13,7 @@ void rect(GLfloat x, GLfloat y)
          glBegin(GL_QUADS);
                  
          
-         glVertex2f(x - lsize*0.6, y + lsize);   //*.6是为了去除屏幕的宽纵比，似的方块能一正方形显示
+         glVertex2f(x - lsize*0.6, y + lsize);   //*.6是为了去除屏幕的宽纵比，s的方块能一正方形显示
          glVertex2f(x + lsize*0.6, y + lsize);
          glVertex2f(x + lsize*0.6, y - lsize);
          glVertex2f(x - lsize*0.6, y - lsize);
