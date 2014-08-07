@@ -1,8 +1,9 @@
 #include <GL/glut.h>
-
 #include <stdio.h>
+#include "global.h"
 
-
+const int windows_len = 1000;
+const int windwos_height = 600;
 const GLfloat pix_size = 0.09f;
 
 void rect(GLfloat x, GLfloat y)
@@ -24,23 +25,7 @@ void rect(GLfloat x, GLfloat y)
 
 void mydisplay(void)
 {
-	glClear(GL_COLOR_BUFFER_BIT);
-	
-	glColor3f(0.0f, 1.0f, 0.0f);
-	glLineWidth(5.0f);
-	glBegin(GL_LINE_LOOP);
-		
-
-	glVertex2f(-1.0f, 1.0f);
-	glVertex2f(1.0f, 1.0f);
-	glVertex2f(1.0f, -1.0f);
-	glVertex2f(-1.0f, -1.0f);
-	
-	glEnd();
-	rect(-0.05, 0.05);
-	
-	rect(-0.05, 0.15);
-	
+	draw_windows();
 	glFlush();
 }
 
