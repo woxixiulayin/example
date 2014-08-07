@@ -3,51 +3,49 @@
 
 void draw_windows(void)
 {
-       	 glClear(GL_COLOR_BUFFER_BIT);
- 	
-	 color_set_white;//边框颜色
+    glClear(GL_COLOR_BUFFER_BIT);
 
-         glBegin(GL_QUADS);
+    glColor3ubv(white);
+    glBegin(GL_QUADS);
 
-         glVertex2f(-1.0f, 1.0f);
-         glVertex2f(1.0f, 1.0f);
-         glVertex2f(1.0f, -1.0f);
-         glVertex2f(-1.0f, -1.0f);
- 
-         glEnd();
+    glVertex2f(-1.0f, 1.0f);
+    glVertex2f(1.0f, 1.0f);
+    glVertex2f(1.0f, -1.0f);
+    glVertex2f(-1.0f, -1.0f);
+
+    glEnd();
 
 
-	 color_set_black;//背景颜色
+    glColor3ubv(black);
 
-         glBegin(GL_QUADS);
+    glBegin(GL_QUADS);
 
-         glVertex2f(-1.0f + windows_line_width, 1.0f- windows_line_width);
-         glVertex2f(1.0f- windows_line_width, 1.0f- windows_line_width);
-         glVertex2f(1.0f- windows_line_width, -1.0f+ windows_line_width);
-         glVertex2f(-1.0f+ windows_line_width, -1.0f+ windows_line_width);
- 
-	 glEnd();
+    glVertex2f(-1.0f + windows_line_width, 1.0f- windows_line_width);
+    glVertex2f(1.0f- windows_line_width, 1.0f- windows_line_width);
+    glVertex2f(1.0f- windows_line_width, -1.0f+ windows_line_width);
+    glVertex2f(-1.0f+ windows_line_width, -1.0f+ windows_line_width);
+    glEnd();
 
-         glFlush();
+    glFlush();
 }
 
 void mydisplay(void)
 {
-        draw_windows();
-        glFlush();
+    draw_windows();
+    glFlush();
 }
 
 int main(int argc, char *argv[])
 {
-        glutInit(&argc, argv);
-        glutInitDisplayMode(GLUT_RGB|GLUT_SINGLE);
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGB|GLUT_SINGLE);
 
-        glutInitWindowPosition(100, 100);
-        glutInitWindowSize(1000, 600);
-        glutCreateWindow("第一个绘图窗口");
+    glutInitWindowPosition(100, 100);
+    glutInitWindowSize(windows_width, windows_height);
+    glutCreateWindow("第一个绘图窗口");
 
-        glutDisplayFunc(&mydisplay);
-        glutMainLoop();
-        return 0;
+    glutDisplayFunc(&mydisplay);
+    glutMainLoop();
+    return 0;
 }
 
