@@ -24,11 +24,14 @@ const color white[3] = {255, 255, 255};
 #define windows_line_width ( 2.0f / (board_height + 2))
 //#define windows_line_width 0.04f
 
-//定义小方块的大小  单位为像素点 游戏区高度为15个box 在加上边界线
-#define box_size (windows_height /( board_height+2))
+//定义小方块的大小,边界与大小的比值  单位为比例值 游戏区高度为15个box 在加上边界线
+#define box_size_y (2.0 / ( board_height+2))
+#define box_size_x (2.0 / ( board_height+2) * windows_height/ windows_width) 
+#define box_scale (1.0/18)
+
 //定义游戏区在界面中的位置，用距离左边界的距离表示  单位为像素点
-#define board_left_position  -0.6
-#define board_right_position (11 *  box_size +  board_left_position)
+#define board_left_position  -0.4
+#define board_right_position (11 *  box_size_x +  board_left_position)
 
 
 //定义预览窗口在界面中的位置,用中心点位置表示  单位为窗口比例位置
@@ -58,6 +61,6 @@ void draw_preview(void);
 void square_with_board(GLfloat x, GLfloat y, GLfloat f_size, GLfloat width, color board[], color inside[]);
 
 //画小方块 保证在4：3的窗口下是正方形
-void draw_box(int x, int y);
+void draw_box(GLfloat x, GLfloat y);
 
 #endif
