@@ -70,6 +70,7 @@ void draw_board(void)
 {
     int i;
     //GLfloat x = board_left_position;
+    printf("begin function %s!  \n", __func__);
     GLfloat y = -1.0 + 0.5 * box_size_y;
     for(i = 0; i < 17 ; i++)
     {
