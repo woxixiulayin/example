@@ -13,6 +13,11 @@
 #define board_width 10
 #define board_height 15
 
+//定义游戏区的背景颜色和边框颜色
+#define back_color black
+#define board_color white
+
+
 //定义窗口边界线的粗细 单位为像素比例
 #define windows_line_width ( 2.0f / (board_height + 2))
 //#define windows_line_width 0.04f
@@ -31,6 +36,8 @@
 #define preview_size  0.6
 #define preview_x   0.54
 #define preview_y   0.45
+#define preview_shape_x preview_x-0.09
+#define preview_shape_y preview_y+0.17 
 
 //定义预览窗口线的粗细 单位为窗口的比例
 #define preview_line_width   0.01
@@ -41,6 +48,10 @@
 
 //定义形状的数量
 #define shape_max 19
+
+//定义绘制或者删除的宏定义
+#define draw_flag 1
+#define delete_flag 0
 
 typedef  GLubyte color;
 //设置颜色
@@ -64,9 +75,16 @@ struct board{
 //定义方块的结构体
 typedef struct {
 	char box[2];
-	int color;//方块的颜色
+        const	color *co;//方块的颜色
 	int next; //该放快下一个形状所在的索引号
 }shape;
+ 
+//定义带坐标的方块
+typedef struct{
+	int x; //在board内的整数坐标位置
+	int y;
+	int shape_num ;
+}xyshape;
 
 const shape shapes[shape_max] = {
 
@@ -191,8 +209,21 @@ void draw_box(GLfloat x, GLfloat y, color b_color[]);
 //产生随机shape 返回值为 shapes数组中的索引号
 int rand_shape(void);
 
-//在预览区绘制shape
-void draw_pre_shape(int shape_num);
+//绘制或者擦除shape
+void draw_or_delete_shape(GLfloat x, GLfloat y,int shape_num, int flag);
 
-//画方块shape
+//绘制或者游戏区的shape
+void draw_or_delete_board_shape(xyshape *p, int flag);
+
+//在预览区绘制shape
+//void draw_pre_shape(GLfloat x, GLfloat y,int shape_num);
+
+//显示字符串
+void show_string(GLfloat x, GLfloat y, char* p, color *col);
+
+//显示游戏初始画面
+void game_init(void);
+
+
+
 #endif
