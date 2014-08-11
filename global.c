@@ -76,7 +76,7 @@ void draw_pre_shape(int shape_num)
 				if(4 == j)  y -= box_size;
 				x = X + box_size_x * (j%4);
 				if(flag& mask)
-                    draw_box(x, y, shapes[shape_num].color );
+                    draw_box(x, y, shapes[shape_num].co );
                 flag <<= 1;
 			}
 		}

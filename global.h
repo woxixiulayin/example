@@ -62,14 +62,13 @@ struct board{
 }table_boad[board_width][board_height];
 
 //定义方块的结构体
-typedef struct {
+struct shape{
 	char box[2];
-	int color;//方块的颜色
+	color* co;//方块的颜色
 	int next; //该放快下一个形状所在的索引号
-}shape;
+};
 
-const shape shapes[shape_max] = {
-
+const struct shape shapes[shape_max] = {
 	/*   口口
        口口   x0.5  y0*/
 	{0x6c,0x0, yellow,1},
