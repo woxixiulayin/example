@@ -80,12 +80,19 @@ void draw_or_delete_shape(GLfloat x, GLfloat y,int shape_num, int flag)
 		for(j =0; j<8; j++)
 			{
 				if(4 == j)  y -= box_size;
+<<<<<<< HEAD
 				if(p & mask)
 					{
                   		  	if(draw_flag == flag)	draw_box(x+box_size_x*(j%4), y, shapes[shape_num].co);
 					else if(delete_flag == flag) 	draw_box(x+box_size_x*(j%4), y, back_color);
 					 }
               			  p  <<= 1;
+=======
+				x = X + box_size_x * (j%4);
+				if(flag& mask)
+                    draw_box(x, y, shapes[shape_num].co );
+                flag <<= 1;
+>>>>>>> 4ef6e1c6056967d0d332665359c45a14f87e187c
 			}
 		}
 }
