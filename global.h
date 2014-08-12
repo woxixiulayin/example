@@ -1,8 +1,10 @@
 #ifndef GLOBLE_H
 #define GLOBLE_H
-
 #include <GL/glut.h>
 
+//定义延迟函数
+#define delay_s(n)  sleep(n)
+#define delay_ms(n) usleep((n)*1000)
 
 //定义界面窗口的大小 单位为像素点
 #define windows_width 1000
@@ -37,7 +39,7 @@
 #define preview_x   0.54
 #define preview_y   0.45
 #define preview_shape_x preview_x-0.09
-#define preview_shape_y preview_y+0.17 
+#define preview_shape_y preview_y+0.17
 
 //定义预览窗口线的粗细 单位为窗口的比例
 #define preview_line_width   0.01
@@ -78,7 +80,7 @@ typedef struct {
         const	color *co;//方块的颜色
 	int next; //该放快下一个形状所在的索引号
 }shape;
- 
+
 //定义带坐标的方块
 typedef struct{
 	int x; //在board内的整数坐标位置

@@ -2,7 +2,7 @@
 #include <math.h>
 #include <string.h>
 #include "global.h"
-xyshape aaa = {5,6,6};
+xyshape aaa = {5,4,6};
 xyshape *aa = &aaa;
 void draw_windows(void)
     {
@@ -19,10 +19,10 @@ void show_string(GLfloat x, GLfloat y, char *p, color *col)
 	int n = strlen(q);
 	int i;
         glColor3ubv(col);
-	glRasterPos2f(x,y);  
-	//逐个显示字符串中的每个字符  
-	for (i = 0; i < n; i++)  
-        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *(q+i));  
+	glRasterPos2f(x,y);
+	//逐个显示字符串中的每个字符
+	for (i = 0; i < n; i++)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *(q+i));
 }
 void rect_with_board(GLfloat x, GLfloat y, GLfloat f_size, GLfloat width, int squar_flag, color board[], color inside[])
     {
@@ -84,14 +84,14 @@ void draw_or_delete_shape(GLfloat x, GLfloat y,int shape_num, int flag)
 					{
                   		  	if(draw_flag == flag)	draw_box(x+box_size_x*(j%4), y, shapes[shape_num].co);
 					else if(delete_flag == flag) 	draw_box(x+box_size_x*(j%4), y, back_color);
-					 }		
+					 }
               			  p  <<= 1;
 			}
 		}
 }
 
 void draw_or_delete_board_shape(xyshape *p, int flag)
-{	
+{
 	GLfloat x;
 	GLfloat y;
 	x = board_left_position + (p->x) * box_size_x;
@@ -134,7 +134,10 @@ void mydisplay(void)
     game_init();
     draw_or_delete_shape(preview_shape_x,preview_shape_y,rand_shape(),draw_flag);
     draw_or_delete_board_shape(aa,draw_flag);
-    draw_or_delete_board_shape(aa,delete_flag);
+ //   delay_ms(900);
+    //delay_ms(900);
+   // delay_s(3);
+  //  draw_or_delete_board_shape(aa,delete_flag);
     glFlush();
     }
 
