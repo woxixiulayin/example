@@ -1,6 +1,7 @@
 #ifndef GLOBLE_H
 #define GLOBLE_H
 #include <GL/glut.h>
+#include <unistd.h>
 
 //定义延迟函数
 #define delay_s(n)  sleep(n)
@@ -54,6 +55,13 @@
 //定义绘制或者删除的宏定义
 #define draw_flag 1
 #define delete_flag 0
+
+
+//定义键值
+#define left
+#define right
+#define down
+#define transform
 
 typedef  GLubyte color;
 //设置颜色
@@ -225,6 +233,7 @@ void show_string(GLfloat x, GLfloat y, char* p, color *col);
 //显示游戏初始画面
 void game_init(void);
 
-
+//对shape进行变形返回变形后的shape指针
+shape* shape_transform(shape *shape_tran, int key_num);
 
 #endif

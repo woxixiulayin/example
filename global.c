@@ -2,6 +2,14 @@
 #include <math.h>
 #include <string.h>
 #include "global.h"
+
+
+static shape shape_new;  //
+static shape shape_now;
+
+table_boad[board_width][board_height] = {0};''
+
+
 xyshape aaa = {5,4,6};
 xyshape *aa = &aaa;
 void draw_windows(void)
@@ -136,11 +144,15 @@ void mydisplay(void)
     draw_or_delete_board_shape(aa,draw_flag);
  //   delay_ms(900);
     //delay_ms(900);
-   // delay_s(3);
-  //  draw_or_delete_board_shape(aa,delete_flag);
+    delay_s(3);
+    draw_or_delete_board_shape(aa,delete_flag);
     glFlush();
     }
 
+shape* shape_transform(shape *shape_tran, int key_num)
+{
+
+}
 int main(int argc, char *argv[])
     {
     glutInit(&argc, argv);
