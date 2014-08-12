@@ -77,7 +77,6 @@ struct board{
 //定义方块的结构体
 struct shape{
 	char box[2];
-<<<<<<< HEAD
         const	color *co;//方块的颜色
 	int next; //该放快下一个形状所在的索引号
 }shape;
@@ -88,13 +87,6 @@ typedef struct{
 	int y;
 	int shape_num ;
 }xyshape;
-
-const shape shapes[shape_max] = {
-=======
-	color* co;//方块的颜色
-	int next; //该放快下一个形状所在的索引号
-};
->>>>>>> 4ef6e1c6056967d0d332665359c45a14f87e187c
 
 const struct shape shapes[shape_max] = {
 	/*   口口
