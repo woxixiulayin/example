@@ -4,8 +4,8 @@
 #include "global.h"
 
 
-static struct shape shape_new;  //
-static struct shape shape_now;
+// xyshape shape_next = shapes[10];  //
+ xyshape shape_now = {5,5,10};
 
 struct board table_board[board_width][board_height]={0};
 //memset(table_boad, 0,sizeof(table_boad));
@@ -117,8 +117,8 @@ void draw_board(void)
     GLfloat y = -1.0 + 1.5 * box_size_y;
     for(i = 0; i < 15 ; i++)
     {
-        draw_box(board_left_position, y, blue);
-        draw_box(board_right_position, y, blue);
+        draw_box(board_left_position, y, color_list[rand()%8+1]);
+        draw_box(board_right_position, y, color_list[rand()%8+1]);
         y += box_size_y;
     }
      glFlush();
@@ -142,7 +142,7 @@ void draw_preview(void)
      glFlush();
 }
 
-xyshape* shape_transform(xyshape *shape_tran, int key_num)
+void shape_transform(xyshape *shape_tran, int key_num)
 {
 	int x;
 	int y;
@@ -156,31 +156,30 @@ xyshape* shape_transform(xyshape *shape_tran, int key_num)
 		case transform: _shape.shape_num = shapes[_shape.shape_num].next;break;
 		default:break;
 	}
-	
+
         int i = 0;
 	int j = 0;
 	char p = 0;
 	char mask = 0x80;
 	for(i = 0; i<2; i++)
 		{
-		p = shapes[_shape.shape_num];
+		p = shapes[_shape.shape_num].box[i];
 		if(i == 1) y-- ;
 		for(j =0; j<8; j++)
 			{
 				if(4 == j)  y-- ;
 				if(p & mask)
 					{
-					if(x<0||x>15||y<0)  return 1;
-                  		  	if(1 == table_board[x][y].val) return 1;	
-					table_board[x][y].val = 1;
-					table_board[x][y].co = shapes[_shape.shape_num].co;
+					if(x<0||x>15||y<0)  return;
+                  		  	if(1 == table_board[x][y].val) return;
+					table_board[x][y].val= 1;
+					table_board[x][y].col= shapes[_shape.shape_num].co;
 					 }
               			  p  <<= 1;
 			}
-		}
-
-	
-       
+    draw_or_delete_board_shape(shape_tran,delete_flag);
+    draw_or_delete_board_shape(&_shape,draw_flag);
+}
 }
 void draw_pre_shape(int shape_num)
 {
@@ -190,12 +189,20 @@ void draw_pre_shape(int shape_num)
 }
 void disp_pre_2s(void)
 {
-	static int i = 0;
+	/*static int i = 0;
 	if(i>=19) i = 0;
-	draw_pre_shape(i++);	
-        glutTimerFunc(2000,disp_pre_2s,1);
+	draw_pre_shape(i++);*/
+        draw_board();
+        glutTimerFunc(1500,disp_pre_2s,1);
+
 }
 
+void keyprocess(unsigned char key_num, int x, int y)
+{
+    if(esc == key_num) draw_pre_shape(rand_shape());
+    else if ( down == key_num ) return;
+    shape_transform(&shape_now, key_num);
+}
 void mydisplay(void)
     {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -215,7 +222,9 @@ int main(int argc, char *argv[])
     glutInitWindowSize(windows_width, windows_height);
     glutCreateWindow("第一个绘图窗口");
 
-    glutTimerFunc(2000,disp_pre_2s,1);
+    glutTimerFunc(1500,disp_pre_2s,1);
+    glutKeyboardFunc(keyprocess);
+
     glutDisplayFunc(&mydisplay);
 
 

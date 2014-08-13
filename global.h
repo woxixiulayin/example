@@ -58,10 +58,11 @@
 
 
 //定义键值
-#define left 1
-#define right 2
-#define down  3
-#define transform 4
+#define esc   27             //esc
+#define left  71               //a
+#define right  100          //d
+#define down  115       //s
+#define transform 13   //enter
 
 typedef  GLubyte color;
 //设置颜色
@@ -74,7 +75,7 @@ const color orange[3] = {0xf1, 0x5a, 0x22};
 const color yellow[3] = {0xff, 0xd4, 0x00};
 const color purple[3] = {0x85, 0x52, 0xa1};
 const color brown[3] = {0x53, 0x26, 0x1f};
-
+const color *color_list[9] = {black,green, red, blue, white, orange, yellow, purple, brown};
 
 //定义游戏区底板
 struct board{
@@ -236,6 +237,8 @@ void show_string(GLfloat x, GLfloat y, char* p, color *col);
 void game_init(void);
 
 //对shape进行变形返回变形后的shape指针
-syshape* shape_transform(xyshape *shape_tran, int key_num);
+void shape_transform(xyshape *shape_tran, int key_num);
+
+void keyprocess(unsigned char, int x, int y);
 
 #endif
