@@ -141,20 +141,8 @@ void draw_preview(void)
 	rect_with_board(preview_x, preview_y, preview_size, preview_line_width, squar,red, back_color);
      glFlush();
 }
-void mydisplay(void)
-    {
-    glClear(GL_COLOR_BUFFER_BIT);
-    game_init();
-    draw_or_delete_shape(preview_shape_x,preview_shape_y,rand_shape(),draw_flag);
-    draw_or_delete_board_shape(aa,draw_flag);
- //   delay_ms(900);
-    //delay_ms(900);
-    delay_s(3);
-    draw_or_delete_board_shape(aa,delete_flag);
-    glFlush();
-    }
 
-shape_transform(xyshape *shape_tran, int key_num)
+xyshape* shape_transform(xyshape *shape_tran, int key_num)
 {
 	int x;
 	int y;
@@ -168,8 +156,54 @@ shape_transform(xyshape *shape_tran, int key_num)
 		case transform: _shape.shape_num = shapes[_shape.shape_num].next;break;
 		default:break;
 	}
+	
+        int i = 0;
+	int j = 0;
+	char p = 0;
+	char mask = 0x80;
+	for(i = 0; i<2; i++)
+		{
+		p = shapes[_shape.shape_num];
+		if(i == 1) y-- ;
+		for(j =0; j<8; j++)
+			{
+				if(4 == j)  y-- ;
+				if(p & mask)
+					{
+					if(x<0||x>15||y<0)  return 1;
+                  		  	if(1 == table_board[x][y].val) return 1;	
+					table_board[x][y].val = 1;
+					table_board[x][y].co = shapes[_shape.shape_num].co;
+					 }
+              			  p  <<= 1;
+			}
+		}
+
+	
        
 }
+void draw_pre_shape(int shape_num)
+{
+	draw_preview();
+    	draw_or_delete_shape(preview_shape_x,preview_shape_y,shape_num,draw_flag);
+	glFlush();
+}
+void disp_pre_2s(void)
+{
+	static int i = 0;
+	if(i>=19) i = 0;
+	draw_pre_shape(i++);	
+        glutTimerFunc(2000,disp_pre_2s,1);
+}
+
+void mydisplay(void)
+    {
+    glClear(GL_COLOR_BUFFER_BIT);
+    game_init();
+ //   delay_ms(900);
+    //delay_ms(900);
+    glFlush();
+    }
 
 int main(int argc, char *argv[])
     {
@@ -181,6 +215,7 @@ int main(int argc, char *argv[])
     glutInitWindowSize(windows_width, windows_height);
     glutCreateWindow("第一个绘图窗口");
 
+    glutTimerFunc(2000,disp_pre_2s,1);
     glutDisplayFunc(&mydisplay);
 
 
@@ -188,4 +223,5 @@ int main(int argc, char *argv[])
     glutMainLoop();
     return 0;
     }
+
 

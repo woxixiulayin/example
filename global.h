@@ -104,15 +104,15 @@ const struct shape shapes[shape_max] = {
         口口
           口    */
 
-	{0x8c,0x40, yellow, 0},
+	{0x04,0x62, yellow, 0},
 	/* 口口
-         口口     */
-	{0x06,0xc0, blue, 3},
+             口口     */
+	{0x0c,0x60, blue, 3},
 
 	/*  口
 	  口口
 	  口   */
-	{0x4c,0x80, blue, 2},
+	{0x04,0xc8, blue, 2},
 
 	/*
  	  口口
@@ -159,30 +159,30 @@ const struct shape shapes[shape_max] = {
 	/*   口
 	     口
 	   口口   */
-	{0x22,0x60, brown, 9},
+	{0x02,0x26, brown, 9},
 
 	/*
 	  口口口
-	      口  */
-	{0x0e,0x20, green, 14},
+	    口  */
+	{0x0e,0x40, green, 14},
 
 	/*
 	   口
            口口
            口   */
-	{0x04,0x64, green, 15},
+	{0x46,0x40, green, 15},
 
 	/*
              口
 	   口口口
 	       */
-	{0x04,0xe0, green, 16},
+	{0x4e,0x00, green, 16},
 
 	/*
-            口
+              口
 	    口口
-            口   */
-	{0x04,0x64, green, 13},
+              口   */
+	{0x4c,0x40, green, 13},
 
  /*          口
 	     口
@@ -194,7 +194,7 @@ const struct shape shapes[shape_max] = {
 
 	  口口口口
                */
-	{0x00,0xf0, purple, 17},
+	{0x00,0x0f, purple, 17},
 
 
 
@@ -221,11 +221,13 @@ int rand_shape(void);
 //绘制或者擦除shape
 void draw_or_delete_shape(GLfloat x, GLfloat y,int shape_num, int flag);
 
+//
+void disp_pre_2s(void);
 //绘制或者游戏区的shape
 void draw_or_delete_board_shape(xyshape *p, int flag);
 
 //在预览区绘制shape
-//void draw_pre_shape(GLfloat x, GLfloat y,int shape_num);
+void draw_pre_shape(int shape_num);
 
 //显示字符串
 void show_string(GLfloat x, GLfloat y, char* p, color *col);
@@ -234,6 +236,6 @@ void show_string(GLfloat x, GLfloat y, char* p, color *col);
 void game_init(void);
 
 //对shape进行变形返回变形后的shape指针
-int shape_transform(xyshape *shape_tran, int key_num);
+syshape* shape_transform(xyshape *shape_tran, int key_num);
 
 #endif
