@@ -58,10 +58,10 @@
 
 
 //定义键值
-#define left
-#define right
-#define down
-#define transform
+#define left 1
+#define right 2
+#define down  3
+#define transform 4
 
 typedef  GLubyte color;
 //设置颜色
@@ -80,14 +80,14 @@ const color brown[3] = {0x53, 0x26, 0x1f};
 struct board{
 	int val;  //0表示不显示  1表示显示
 	color col;  //表示该点的颜色
-}table_boad[board_width][board_height];
+};
 
 //定义方块的结构体
 struct shape{
 	char box[2];
         const	color *co;//方块的颜色
 	int next; //该放快下一个形状所在的索引号
-}shape;
+};
 
 //定义带坐标的方块
 typedef struct{
@@ -97,17 +97,17 @@ typedef struct{
 }xyshape;
 
 const struct shape shapes[shape_max] = {
-	/*   口口
-       口口   x0.5  y0*/
-	{0x6c,0x0, yellow,1},
-/*   口
-       口口
-           口    */
+        /*  口口
+	  口口   x0.5  y0*/
+	{0x06,0xc0, yellow,1},
+      /*口
+        口口
+          口    */
 
 	{0x8c,0x40, yellow, 0},
-	/*  口口
-	          口口     */
-	{0xc6,0x0, blue, 3},
+	/* 口口
+         口口     */
+	{0x06,0xc0, blue, 3},
 
 	/*  口
 	  口口
@@ -124,56 +124,56 @@ const struct shape shapes[shape_max] = {
 	  口     */
 	{0x0e,0x80, red, 6},
 
-	/*口
-	  口
-	  口口   */
-	{0x88,0xc0, red, 7},
+	/* 口
+	   口
+	   口口   */
+	{0x44,0x60, red, 7},
 
 	/*
-	          口
+              口
 	  口口口   */
-	{0x01,0x70, red, 8},
+	{0x02,0xe0, red, 8},
 
 	/*
-	  口口
-	    口
-	    口   */
-	{0x0c,0x44, red, 5},
+	   口口
+	     口
+	     口   */
+	{0x06,0x22, red, 5},
 
 	/*
 	  口口口
-	          口   */
+	      口   */
 	{0x0e,0x20, brown, 10},
 
 	/*
 	    口口
 	    口
 	    口	 */
-	{0x0e,0x88, brown, 11},
+	{0x06,0x44, brown, 11},
 
 	/*
 	  口
 	  口口口   */
 	{0x08,0xe0, brown, 12},
 
-	/*    口
-	        口
-	    口口   */
-	{0x44,0xc0, brown, 9},
+	/*   口
+	     口
+	   口口   */
+	{0x22,0x60, brown, 9},
 
 	/*
-    口口口
-        口  */
-	{0x0e,0x40, green, 14},
+	  口口口
+	      口  */
+	{0x0e,0x20, green, 14},
 
 	/*
-	      口
-	      口口
-	      口   */
+	   口
+           口口
+           口   */
 	{0x04,0x64, green, 15},
 
 	/*
-           口
+             口
 	   口口口
 	       */
 	{0x04,0xe0, green, 16},
@@ -181,14 +181,14 @@ const struct shape shapes[shape_max] = {
 	/*
             口
 	    口口
-	        口   */
-	{0x02,0x32, green, 13},
+            口   */
+	{0x04,0x64, green, 13},
 
- /*    口
+ /*          口
 	     口
 	     口
-         口  */
-	{0x44,0x44, purple, 18},
+             口  */
+	{0x88,0x88, purple, 18},
 
 	/*
 
@@ -234,6 +234,6 @@ void show_string(GLfloat x, GLfloat y, char* p, color *col);
 void game_init(void);
 
 //对shape进行变形返回变形后的shape指针
-shape* shape_transform(shape *shape_tran, int key_num);
+int shape_transform(xyshape *shape_tran, int key_num);
 
 #endif

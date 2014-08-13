@@ -4,10 +4,11 @@
 #include "global.h"
 
 
-static shape shape_new;  //
-static shape shape_now;
+static struct shape shape_new;  //
+static struct shape shape_now;
 
-table_boad[board_width][board_height] = {0};''
+struct board table_board[board_width][board_height]={0};
+//memset(table_boad, 0,sizeof(table_boad));
 
 
 xyshape aaa = {5,4,6};
@@ -96,6 +97,7 @@ void draw_or_delete_shape(GLfloat x, GLfloat y,int shape_num, int flag)
               			  p  <<= 1;
 			}
 		}
+     glFlush();
 }
 
 void draw_or_delete_board_shape(xyshape *p, int flag)
@@ -105,6 +107,7 @@ void draw_or_delete_board_shape(xyshape *p, int flag)
 	x = board_left_position + (p->x) * box_size_x;
 	y = -1.0 + (1.5 + p->y) * box_size_y;
 	draw_or_delete_shape(x, y, p->shape_num, flag);
+     glFlush();
 }
 
 void draw_board(void)
@@ -118,6 +121,7 @@ void draw_board(void)
         draw_box(board_right_position, y, blue);
         y += box_size_y;
     }
+     glFlush();
 }
 
 
@@ -135,6 +139,7 @@ void game_init(void)
 void draw_preview(void)
 {
 	rect_with_board(preview_x, preview_y, preview_size, preview_line_width, squar,red, back_color);
+     glFlush();
 }
 void mydisplay(void)
     {
@@ -149,10 +154,23 @@ void mydisplay(void)
     glFlush();
     }
 
-shape* shape_transform(shape *shape_tran, int key_num)
+shape_transform(xyshape *shape_tran, int key_num)
 {
+	int x;
+	int y;
+	xyshape _shape = *shape_tran;
 
+	switch(key_num)
+	{
+		case left:   _shape.x-- ;break;
+		case right:  _shape.x++;break;
+		case down:   _shape.y--;break;
+		case transform: _shape.shape_num = shapes[_shape.shape_num].next;break;
+		default:break;
+	}
+       
 }
+
 int main(int argc, char *argv[])
     {
     glutInit(&argc, argv);
