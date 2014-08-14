@@ -56,12 +56,18 @@
 #define draw_flag 1
 #define delete_flag 0
 
+//定义变形结果
+#define OK            0
+#define outboard  1
+#define hasshape  2
+#define touched 3
 
 //定义键值
 #define esc   27             //esc
-#define left  71               //a
+#define left   97          //a
 #define right  100          //d
 #define down  115       //s
+#define up  119     //w
 #define transform 13   //enter
 
 typedef  GLubyte color;
@@ -223,7 +229,7 @@ int rand_shape(void);
 void draw_or_delete_shape(GLfloat x, GLfloat y,int shape_num, int flag);
 
 //
-void disp_pre_2s(void);
+void re_draw(void);
 //绘制或者游戏区的shape
 void draw_or_delete_board_shape(xyshape *p, int flag);
 
@@ -236,9 +242,9 @@ void show_string(GLfloat x, GLfloat y, char* p, color *col);
 //显示游戏初始画面
 void game_init(void);
 
-//对shape进行变形返回变形后的shape指针
-void shape_transform(xyshape *shape_tran, int key_num);
+//对shape进行变形返回值表示变结果
+int shape_transform(xyshape *shape_tran, int key_num);
 
 void keyprocess(unsigned char, int x, int y);
-
+void table_board_init(void);
 #endif

@@ -5,14 +5,19 @@
 
 
 // xyshape shape_next = shapes[10];  //
- xyshape shape_now = {5,5,10};
+xyshape shape_now = {5,15,10};
+static int speed = 500;//500ms
 
-struct board table_board[board_width][board_height]={0};
+//在边界撒上要标记边界boald 的val
+struct board table_board[board_width][board_height];
 //memset(table_boad, 0,sizeof(table_boad));
 
 
-xyshape aaa = {5,4,6};
-xyshape *aa = &aaa;
+void table_board_init(void)
+{
+  memset(table_board,0,sizeof(table_board));
+}
+
 void draw_windows(void)
     {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -104,21 +109,26 @@ void draw_or_delete_board_shape(xyshape *p, int flag)
 {
 	GLfloat x;
 	GLfloat y;
+
 	x = board_left_position + (p->x) * box_size_x;
 	y = -1.0 + (1.5 + p->y) * box_size_y;
+
 	draw_or_delete_shape(x, y, p->shape_num, flag);
-     glFlush();
+    glFlush();
 }
 
 void draw_board(void)
 {
     int i;
+    color *co;
+
     printf("call function %s!  \n", __func__);
     GLfloat y = -1.0 + 1.5 * box_size_y;
     for(i = 0; i < 15 ; i++)
     {
-        draw_box(board_left_position, y, color_list[rand()%8+1]);
-        draw_box(board_right_position, y, color_list[rand()%8+1]);
+    co = color_list[rand()%8+1];
+        draw_box(board_left_position, y,co);
+        draw_box(board_right_position, y,co);
         y += box_size_y;
     }
      glFlush();
@@ -142,25 +152,31 @@ void draw_preview(void)
      glFlush();
 }
 
-void shape_transform(xyshape *shape_tran, int key_num)
+int shape_transform(xyshape *shape_tran, int key_num)
 {
 	int x;
 	int y;
-	xyshape _shape = *shape_tran;
+	xyshape _shape = {
+                shape_tran->x,
+                shape_tran->y,
+                shape_tran->shape_num};
 
 	switch(key_num)
 	{
-		case left:   _shape.x-- ;break;
-		case right:  _shape.x++;break;
-		case down:   _shape.y--;break;
+		case left:  _shape.x-- ;break;
+		case right: _shape.x++;break;
+		case down: _shape.y--;break;
+		case up:    _shape.y++;break;
 		case transform: _shape.shape_num = shapes[_shape.shape_num].next;break;
-		default:break;
+		default:return;
 	}
 
-        int i = 0;
+    int i = 0;
 	int j = 0;
 	char p = 0;
 	char mask = 0x80;
+	x = _shape.x;
+	y = _shape.y;
 	for(i = 0; i<2; i++)
 		{
 		p = shapes[_shape.shape_num].box[i];
@@ -168,18 +184,33 @@ void shape_transform(xyshape *shape_tran, int key_num)
 		for(j =0; j<8; j++)
 			{
 				if(4 == j)  y-- ;
+				x = _shape.x + j%4;
 				if(p & mask)
 					{
-					if(x<0||x>15||y<0)  return;
-                  		  	if(1 == table_board[x][y].val) return;
-					table_board[x][y].val= 1;
-					table_board[x][y].col= shapes[_shape.shape_num].co;
+					if(x<1||x>10||y<0||y>14)//边界处理
+					{
+					    if(down == key_num) return touched;
+					    else return outboard;
+					}
+                  		  	if(1 == table_board[x][y].val)
+                  		  	{
+                  		  	    if(down == key_num) return touched;
+                  		  	    else return hasshape;
+                  		  	}
+                //在没有触地前不要将其映射到table上，只需要绘制出来即可
+				//	table_board[x][y].val= 1;
+					//table_board[x][y].col= shapes[_shape.shape_num].co;
 					 }
               			  p  <<= 1;
 			}
+			}
+
     draw_or_delete_board_shape(shape_tran,delete_flag);
-    draw_or_delete_board_shape(&_shape,draw_flag);
-}
+    shape_tran->x = _shape.x;
+    shape_tran->y = _shape.y;
+    shape_tran->shape_num = _shape.shape_num;
+    draw_or_delete_board_shape(shape_tran,draw_flag);
+    return OK;
 }
 void draw_pre_shape(int shape_num)
 {
@@ -187,26 +218,35 @@ void draw_pre_shape(int shape_num)
     	draw_or_delete_shape(preview_shape_x,preview_shape_y,shape_num,draw_flag);
 	glFlush();
 }
-void disp_pre_2s(void)
+void re_draw(void)
 {
 	/*static int i = 0;
 	if(i>=19) i = 0;
 	draw_pre_shape(i++);*/
-        draw_board();
-        glutTimerFunc(1500,disp_pre_2s,1);
+       // draw_board();
+    if(touched == shape_transform(&shape_now,down))
+    {
+        shape_now.x = 5;
+        shape_now.y = 15;
+        shape_now.shape_num = rand_shape();
+        draw_or_delete_board_shape(&shape_now,draw_flag);
+    }
+    glutTimerFunc(speed,re_draw,1);
 
 }
 
 void keyprocess(unsigned char key_num, int x, int y)
 {
+    printf("press key is %c %d \n", key_num,key_num);
     if(esc == key_num) draw_pre_shape(rand_shape());
-    else if ( down == key_num ) return;
-    shape_transform(&shape_now, key_num);
+    //else if ( down == key_num ) return;
+    else shape_transform(&shape_now, key_num);
 }
 void mydisplay(void)
     {
     glClear(GL_COLOR_BUFFER_BIT);
     game_init();
+    draw_or_delete_board_shape(&shape_now,draw_flag);
  //   delay_ms(900);
     //delay_ms(900);
     glFlush();
@@ -222,7 +262,9 @@ int main(int argc, char *argv[])
     glutInitWindowSize(windows_width, windows_height);
     glutCreateWindow("第一个绘图窗口");
 
-    glutTimerFunc(1500,disp_pre_2s,1);
+    table_board_init();
+
+    glutTimerFunc(speed,re_draw,1);
     glutKeyboardFunc(keyprocess);
 
     glutDisplayFunc(&mydisplay);
