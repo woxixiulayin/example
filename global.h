@@ -247,4 +247,6 @@ int shape_transform(xyshape *shape_tran, int key_num);
 
 void keyprocess(unsigned char, int x, int y);
 void table_board_init(void);
+void touch_board(void);
+
 #endif

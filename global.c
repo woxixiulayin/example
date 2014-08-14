@@ -2,10 +2,13 @@
 #include <math.h>
 #include <string.h>
 #include "global.h"
+#include <time.h>
 
 
-// xyshape shape_next = shapes[10];  //
-xyshape shape_now = {5,15,10};
+
+xyshape shape_next;
+xyshape shape_now;
+
 static int speed = 500;//500ms
 
 //在边界撒上要标记边界boald 的val
@@ -218,6 +221,7 @@ void draw_pre_shape(int shape_num)
     	draw_or_delete_shape(preview_shape_x,preview_shape_y,shape_num,draw_flag);
 	glFlush();
 }
+
 void re_draw(void)
 {
 	/*static int i = 0;
@@ -226,13 +230,19 @@ void re_draw(void)
        // draw_board();
     if(touched == shape_transform(&shape_now,down))
     {
-        shape_now.x = 5;
-        shape_now.y = 15;
-        shape_now.shape_num = rand_shape();
-        draw_or_delete_board_shape(&shape_now,draw_flag);
+        touch_board();
     }
     glutTimerFunc(speed,re_draw,1);
+}
 
+void touch_board(void)
+{
+     shape_now = shape_next;
+     shape_next.x = 5;
+     shape_next.y = 15;
+     shape_next.shape_num = time((time_t *)NULL)%19;
+     draw_pre_shape(shape_next.shape_num);
+     draw_or_delete_board_shape(&shape_now,draw_flag);
 }
 
 void keyprocess(unsigned char key_num, int x, int y)
@@ -254,6 +264,15 @@ void mydisplay(void)
 
 int main(int argc, char *argv[])
     {
+
+     shape_now .x = 5;
+     shape_now.y = 15;
+     shape_now.shape_num = time((time_t *)NULL)%19;
+
+     shape_next.x = 5;
+     shape_next.y = 15;
+     shape_next.shape_num = time((time_t *)NULL)%19;
+
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB|GLUT_SINGLE);
 
@@ -264,7 +283,7 @@ int main(int argc, char *argv[])
 
     table_board_init();
 
-    glutTimerFunc(speed,re_draw,1);
+   glutTimerFunc(speed,re_draw,1);
     glutKeyboardFunc(keyprocess);
 
     glutDisplayFunc(&mydisplay);
